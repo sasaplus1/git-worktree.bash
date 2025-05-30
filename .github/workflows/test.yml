@@ -1,0 +1,25 @@
+name: test
+
+on:
+  - push
+  - pull_request
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - id: find
+        run: |
+          echo 'result<<EOF' | tee -a "$GITHUB_OUTPUT"
+          find . \( -name '*.sh' -o -name '*.bash' \) -print0 | xargs -0 echo | tee -a "$GITHUB_OUTPUT"
+          echo 'EOF' | tee -a "$GITHUB_OUTPUT"
+      - uses: docker://koalaman/shellcheck:stable
+        with:
+          args: ${{ steps.find.outputs.result }}
