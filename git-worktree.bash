@@ -52,7 +52,9 @@ __gw-cd() {
     local -r worktree_dir="$(__gw-get-worktree-dir)"
     local -r slug="$(__gw-get-slug)"
     local -r dir="$(command git worktree list | command grep -o "${worktree_dir}/${slug}/${refs}")"
-    [ -d "$dir" ] && { command pushd "$dir" || return; }
+    [ -d "$dir" ] && {
+      command pushd "$dir" || return
+    }
   fi
 }
 
