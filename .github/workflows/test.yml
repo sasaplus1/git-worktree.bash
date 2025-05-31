@@ -36,11 +36,11 @@ jobs:
               test -z "$(gw list)"
               gw add test-branch
               gw list | grep 'test-branch'
-              original_dir="$(pwd)"
-              gw cd test-branch
               current_dir="$(pwd)"
+              gw cd test-branch
+              worktree_dir="$(pwd)"
               gw back
-              test "$current_dir" != "$original_dir"
+              test "$current_dir" != "$worktree_dir"
               gw remove test-branch
               test -z "$(gw list)"
           - name: print help
