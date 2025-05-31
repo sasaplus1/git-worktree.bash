@@ -67,6 +67,7 @@ jobs:
           git checkout -b test-branch
           git commit -m 'chore: add test.txt'
           git checkout -
+      - run: bash --version
       - run: |
           shopt -s expand_aliases
           source git-worktree.bash
