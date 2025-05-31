@@ -192,7 +192,7 @@ __gw-completion() {
       local branches
       branches=$(git branch -a 2>/dev/null | \
         sed 's/^[* ] //' | \
-        sed 's/^remotes\///' | \
+        sed 's|^remotes/||' | \
         grep -v '^HEAD' | \
         grep -v '^origin/HEAD' | \
         sort -u)
