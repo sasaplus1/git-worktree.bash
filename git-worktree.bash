@@ -38,7 +38,7 @@ __gw-add() {
 
 ### back to previous worktree
 __gw-back() {
-  command popd
+  command popd || return
 }
 
 ### change directory to worktree
@@ -52,7 +52,7 @@ __gw-cd() {
     local -r worktree_dir="$(__gw-get-worktree-dir)"
     local -r slug="$(__gw-get-slug)"
     local -r dir="$(command git worktree list | command grep -o "${worktree_dir}/${slug}/${refs}")"
-    [ -d "$dir" ] && command pushd "$dir"
+    [ -d "$dir" ] && { command pushd "$dir" || return; }
   fi
 }
 
@@ -160,13 +160,14 @@ __gw() {
 
 ### completion function for git-worktree
 __gw-completion() {
-  local cur prev words cword
+  local cur words cword
 
   # alternative processing if bash-completion is not available
   if ! declare -F _init_completion >/dev/null 2>&1
   then
     cur="${COMP_WORDS[COMP_CWORD]}"
-    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    # commented out to avoid SC2034, but kept for reference
+    # prev="${COMP_WORDS[COMP_CWORD-1]}"
     words=("${COMP_WORDS[@]}")
     cword=$COMP_CWORD
   else
@@ -181,6 +182,9 @@ __gw-completion() {
   # completion for subcommands
   if [[ $cword -eq 1 ]]
   then
+    # NOTE: Using shellcheck disable instead of mapfile for Bash 3.x compatibility
+    # mapfile is only available in Bash 4.0+, but we want to support older versions
+    # shellcheck disable=SC2207
     COMPREPLY=($(compgen -W "add back cd list ls remove rm" -- "$cur"))
     return 0
   fi
@@ -196,6 +200,8 @@ __gw-completion() {
         grep -v '^HEAD' | \
         grep -v '^origin/HEAD' | \
         sort -u)
+      # NOTE: Using shellcheck disable instead of mapfile for Bash 3.x compatibility
+      # shellcheck disable=SC2207
       COMPREPLY=($(compgen -W "$branches" -- "$cur"))
       ;;
     cd|remove|rm)
@@ -206,6 +212,8 @@ __gw-completion() {
         sed 's/^\[//' | \
         sed 's/\]$//' | \
         grep -v '^(bare)$')
+      # NOTE: Using shellcheck disable instead of mapfile for Bash 3.x compatibility
+      # shellcheck disable=SC2207
       COMPREPLY=($(compgen -W "$worktrees" -- "$cur"))
       ;;
   esac
