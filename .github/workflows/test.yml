@@ -62,5 +62,6 @@ jobs:
           git checkout -b test-branch
           git commit -m 'chore: add test.txt'
       - run: |
+          shopt -s expand_aliases
           source git-worktree.bash
           ${{ matrix.command }}
