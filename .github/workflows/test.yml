@@ -24,13 +24,15 @@ jobs:
         with:
           args: ${{ steps.find.outputs.result }}
   test:
+    name: test ${{ matrix.name }}
     if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         include:
-          - command: |
+          - name: basic usage
+            command: |
               test -z "$(gw list)"
               gw add test-branch
               gw list | grep 'test-branch'
@@ -41,13 +43,16 @@ jobs:
               test "$current_dir" != "$original_dir"
               gw remove test-branch
               test -z "$(gw list)"
-          - command: |
+          - name: print help
+            command: |
               gw -h
               gw --help
-          - command: |
+          - name: print version
+            command: |
               gw -v
               gw --version
-          - command: |
+          - name: no arguments
+            command: |
               gw || test "$?" -eq 4
     timeout-minutes: 5
     steps:
