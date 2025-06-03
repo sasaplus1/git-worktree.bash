@@ -58,6 +58,11 @@ __gw-cd() {
   fi
 }
 
+__gw-completion() {
+  declare -f __gw-bash-completion
+  echo "complete -F __gw-bash-completion ${__GW_CMD:-gw}"
+}
+
 ### list worktrees
 __gw-list() {
   local -r worktree_dir="$(__gw-get-worktree-dir)"
@@ -94,6 +99,7 @@ __gw-option-help() {
 		  add <branch>         Add a new worktree for the specified branch
 		  back                 Go back to the previous worktree
 		  cd <branch>|-        Change directory to the specified worktree branch
+		  completion           Show completion script for Bash
 		  list, ls [--all]     List all worktrees (use --all to show all branches)
 		  remove, rm <branch>  Remove the specified worktree branch
 		
@@ -135,6 +141,11 @@ __gw() {
       __gw-cd "$@"
       return $?
       ;;
+    completion)
+      shift
+      __gw-completion "$@"
+      return $?
+      ;;
     list|ls)
       shift
       __gw-list "$@"
@@ -160,8 +171,8 @@ __gw() {
   esac
 }
 
-### completion function for git-worktree
-__gw-completion() {
+### bash completion function for git-worktree
+__gw-bash-completion() {
   local cur words cword
 
   # alternative processing if bash-completion is not available
@@ -220,7 +231,6 @@ __gw-completion() {
       ;;
   esac
 }
-complete -F __gw-completion __gw
 
 # shellcheck disable=SC2139
 alias "${__GW_CMD:-gw}"='__gw'
