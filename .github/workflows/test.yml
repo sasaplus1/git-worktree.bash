@@ -43,6 +43,10 @@ jobs:
               test "$current_dir" != "$worktree_dir"
               gw remove test-branch
               test -z "$(gw list)"
+          - name: print completion
+            command: |
+              gw completion
+              eval "$(gw completion)"
           - name: print help
             command: |
               gw -h
