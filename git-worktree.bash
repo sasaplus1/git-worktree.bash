@@ -198,7 +198,7 @@ __gw-bash-completion() {
     # NOTE: Using shellcheck disable instead of mapfile for Bash 3.x compatibility
     # mapfile is only available in Bash 4.0+, but we want to support older versions
     # shellcheck disable=SC2207
-    COMPREPLY=($(compgen -W "add back cd list ls remove rm" -- "$cur"))
+    COMPREPLY=($(compgen -W "add back cd completion list ls remove rm" -- "$cur"))
     return 0
   fi
 
