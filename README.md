@@ -18,6 +18,7 @@ Usage: gw <subcommand> [args...]
   add <branch>         Add a new worktree for the specified branch
   back                 Go back to the previous worktree
   cd <branch>|-        Change directory to the specified worktree branch
+  completion           Show completion script for Bash
   list, ls [--all]     List all worktrees (use --all to show all branches)
   remove, rm <branch>  Remove the specified worktree branch
 
@@ -25,6 +26,18 @@ Usage: gw [option]
 
   -h, --help           Show this help message
   -v, --version        Show version information
+```
+
+## Bash completion
+
+Enable bash completion for the `gw` command:
+
+```bash
+# Load completion
+source <(gw completion)
+
+# Or add to your .bashrc for permanent setup
+echo 'source <(gw completion)' >> ~/.bashrc
 ```
 
 ## Configuration
