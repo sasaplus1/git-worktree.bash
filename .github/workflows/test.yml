@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
       - id: find
         run: |
           echo 'result<<EOF' | tee -a "$GITHUB_OUTPUT"
@@ -60,7 +60,7 @@ jobs:
               gw || test "$?" -eq 4
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
       - run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '<41898282+github-actions[bot]@users.noreply.github.com>'
